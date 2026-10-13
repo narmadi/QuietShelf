@@ -15,7 +15,7 @@ export function Header() {
 
   return (
     <header>
-      <nav className="mx-auto flex max-w-[1100px] items-center justify-between px-4 py-4 md:px-6">
+      <nav className="mx-auto flex max-w-[1100px] items-center justify-between py-4">
         <a href="#">
             <img className="h-14 md:h-16 lg:h-18 w-auto object-contain" src="images/logo.jpeg" alt="Bookstore Logo" />
         </a>
