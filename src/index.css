@@ -13,6 +13,9 @@
     --color-light: #302d2d;
 
     --font-body: "Poppins", sans-serif;
+    --text-h1: clamp(3rem,5vw,4rem);
+    --text-h4: clamp(1rem,2vw,1.5rem);
+    --text-heading: clamp(2rem, 1vw, 7rem);
 }
 
 body {
