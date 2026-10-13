@@ -3,9 +3,7 @@ import { useState } from 'react'
 const links = [
   { href: '#hero', label: 'Home' },
   { href: '#about', label: 'About' },
-  { href: '#fiction', label: 'Fiction' },
-  { href: '#nonfiction', label: 'Non Fiction' },
-  { href: '#staffpicks', label: 'Staff Picks' },
+  { href: '#shop', label: 'Collection' },
   { href: '#events', label: 'Events' },
   { href: '#contact', label: 'Contact' }
 ]
@@ -15,7 +13,7 @@ export function Header() {
 
   return (
     <header>
-      <nav className="mx-auto flex max-w-[1100px] items-center justify-between py-4">
+      <nav className="mx-auto flex max-w-[1100px] items-center justify-between px-4 py-4">
         <a href="#">
             <img className="h-14 md:h-16 lg:h-18 w-auto object-contain" src="images/logo.jpeg" alt="Bookstore Logo" />
         </a>
