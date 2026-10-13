@@ -8,6 +8,9 @@
     --color-muted-rose: #d98e96;
     --color-primary-light: #f3acb3;
     --color-primary-dark: #e2828c;
+    --color-white: #ffffff;
+    --color-dark: #222222;
+    --color-light: #302d2d;
 
     --font-body: "Poppins", sans-serif;
 }
