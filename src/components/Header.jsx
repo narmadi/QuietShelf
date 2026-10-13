@@ -2,19 +2,22 @@ import { useState } from 'react'
 
 const links = [
   { href: '#hero', label: 'Home' },
-  { href: '#shop', label: 'Shop' },
   { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#fiction', label: 'Fiction' },
+  { href: '#nonfiction', label: 'Non Fiction' },
+  { href: '#staffpicks', label: 'Staff Picks' },
+  { href: '#events', label: 'Events' },
+  { href: '#contact', label: 'Contact' }
 ]
 
 export function Header() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-10 border-b border-line bg-bg">
-      <nav className="mx-auto flex max-w-[1100px] items-center justify-between px-4 py-4 sm:px-6">
-        <a href="#hero" className="text-xl font-bold">
-          Brew<span className="text-ember">Haus</span>
+    <header>
+      <nav className="mx-auto flex max-w-[1100px] items-center justify-between px-4 py-4 md:px-6">
+        <a href="#">
+            <img className="h-14 md:h-16 lg:h-18 w-auto object-contain" src="images/logo.jpeg" alt="Bookstore Logo" />
         </a>
         <button
           type="button"
@@ -22,14 +25,14 @@ export function Header() {
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? 'Close menu' : 'Open menu'}
-          className="flex h-10 w-10 items-center justify-center rounded-full text-ink-soft transition hover:bg-line sm:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-ink-soft transition hover:bg-line md:hidden"
         >
-          <span className="text-2xl leading-none">{open ? '×' : '☰'}</span>
+        <span className="text-2xl leading-none">{open ? '×' : '☰'}</span>
         </button>
-        <ul className="hidden gap-6 sm:flex">
+        <ul className="hidden gap-6 md:flex">
           {links.map((link) => (
             <li key={link.href}>
-              <a href={link.href} className="text-ink-soft transition-colors hover:text-ember">
+              <a href={link.href} className="text-sm transition-colors hover:text-muted-rose">
                 {link.label}
               </a>
             </li>
@@ -37,13 +40,13 @@ export function Header() {
         </ul>
       </nav>
       {open && (
-        <ul id="mobile-nav" className="flex flex-col border-t border-line px-4 py-2 sm:hidden">
+        <ul id="mobile-nav" className="flex flex-col border-t border-line px-4 py-2 md:hidden">
           {links.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="block py-3 text-ink-soft transition-colors hover:text-ember"
+                className="block py-3 text-lg transition-colors hover:text-muted-rose"
               >
                 {link.label}
               </a>
