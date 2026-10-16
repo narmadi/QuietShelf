@@ -38,13 +38,13 @@ export function Header() {
         </ul>
       </nav>
       {open && (
-        <ul id="mobile-nav" className="flex flex-col border-t border-line px-4 py-2 md:hidden">
+        <ul id="mobile-nav" className="flex flex-col border-t border-line border-light font-thin h-screen px-4 py-2 md:hidden">
           {links.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="block py-3 text-lg transition-colors hover:text-muted-rose"
+                className="block py-3 text-6xl transition-colors hover:text-muted-rose"
               >
                 {link.label}
               </a>
