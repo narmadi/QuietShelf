@@ -44,7 +44,7 @@ export function Header() {
               <a
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="block py-3 text-6xl transition-colors hover:text-muted-rose"
+                className="block py-3 text-xl transition-colors hover:text-muted-rose"
               >
                 {link.label}
               </a>
