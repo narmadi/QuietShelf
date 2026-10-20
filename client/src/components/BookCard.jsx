@@ -73,34 +73,6 @@ export function BookCard({ book }) {
             <p className="text-base font-semibold text-primary-dark sm:text-lg">
               {formatPrice(book.price)}
             </p>
-
-            <Link
-              to={`/books/${book.id}`}
-              className="inline-flex w-full items-center justify-center
-                gap-2 rounded-full border border-primary-dark/15
-                px-3 py-2.5 text-xs font-semibold text-primary-dark
-                transition-all duration-300 hover:border-primary-dark
-                hover:bg-primary-dark hover:text-white
-                sm:text-sm"
-            >
-              View Details
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                className="h-4 w-4 transition-transform
-                  duration-300 group-hover:translate-x-1"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 12h14m-6-6 6 6-6 6"
-                />
-              </svg>
-            </Link>
           </div>
         </div>
       </div>

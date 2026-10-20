@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { BookCard } from "./BookCard";
+import { PageLoader } from './PageLoader';
 
 export function BookDetail() {
   const [books, setBooks] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
   const book = books.find((b) => b.id === id);
@@ -25,7 +27,7 @@ export function BookDetail() {
     loadBooks();
   }, []);
 
-  if (!book) {
+  if (!book && !loading) {
     return (
       <main className="min-h-screen px-5 py-20 text-center font-[Poppins]">
         <h1 className="text-3xl font-semibold text-primary-dark">
@@ -45,11 +47,16 @@ export function BookDetail() {
     );
   }
 
+  if (loading) {
+    return <PageLoader message="Finding your book..." />;
+  }
+
   const relatedBooks = books
     .filter((item) => item.category === book.category && item.id !== book.id)
     .slice(0, 4);
-
+  
   return (
+    
     <main className="min-h-screen font-[Poppins] text-text">
       {/* Breadcrumb */}
       <div className="mx-auto max-w-7xl px-5 pt-8 sm:px-8 lg:px-12">
