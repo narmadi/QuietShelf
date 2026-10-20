@@ -1,10 +1,27 @@
-import { useState } from 'react'
-import { books } from '../data/books'
+import { useState, useEffect } from 'react'
 import { BookCard } from './BookCard'
 const categories = ['All', 'Fiction', 'Non-Fiction', 'Staff-Picks']
 
 export function Shop() {
+    const [books, setBooks] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('All')
+
+    useEffect(() => {
+        async function loadBooks() {
+            try {
+                const response = await fetch('/api/books')
+                const data = await response.json()
+                setBooks(data)
+            } catch (err) {
+                console.error('Failed to load boks', err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        loadBooks()
+    }, [])
+
     const filtered = 
     filter === 'All' ? books : books.filter((p) => p.category === filter)
 
@@ -29,11 +46,15 @@ export function Shop() {
                     ))}
                     </div>
                 </div>
-                <div className="mx-auto grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
-                    {filtered.map((book) => (
-                    <BookCard key={book.id} book={book} />
-                    ))}
-                </div>
+                {loading ? (
+                    <p className="text-ink-soft">Loading products...</p>
+                ) : (
+                    <div className="mx-auto grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+                        {filtered.map((book) => (
+                        <BookCard key={book.id} book={book} />
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     )
