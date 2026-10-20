@@ -7,6 +7,7 @@ import { Shop } from './components/Shop'
 import { Events } from './components/Events'
 import { Footer } from './components/Footer'
 import { Login } from './components/Login'
+import { BookDetail } from './components/BookDetail'
 
 function Home() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<Login mode="signin" />} />
         <Route path="/signup" element={<Login mode="signup" />} />
+        <Route path="/books/:id" element={<BookDetail />} />
       </Routes>
       <Footer />
     </>
