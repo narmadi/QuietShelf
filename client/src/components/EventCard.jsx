@@ -1,6 +1,6 @@
 export function EventCard({ event }) {
     return (
-       <div class="overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
+       <div className="overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-[0_6px_12px_rgba(0,0,0,0.15)]">
             <article className="group rounded-2xl bg-primary-light p-6">
                 <div className="mb-6 flex items-start gap-4">
                     <div className="flex min-w-16 flex-col items-center rounded-xl bg-dark px-3 py-3 text-center">
