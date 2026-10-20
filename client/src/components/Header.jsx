@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 
 const links = [
   { href: "#hero", label: "Home" },
@@ -12,101 +13,195 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="relative z-50 bg-bg font-body text-text">
-      <nav className="mx-auto flex max-w-[1100px] items-center justify-between gap-4 px-4 py-4">
-        {/* Logo */}
-        <a href="/" className="shrink-0">
-          <img
-            className="h-14 w-auto object-contain md:h-16"
-            src="images/logo.jpeg"
-            alt="The Quiet Shelf Logo"
-          />
+    <header
+      className="sticky top-0 z-50 border-b border-primary-dark/10
+      font-[Poppins] text-text shadow-sm
+      backdrop-blur-lg"
+    >
+      <nav
+        className="mx-auto flex max-w-7xl items-center
+        justify-between gap-4 px-5 py-3 sm:px-8 lg:px-12"
+      >
+        {/* Logo and brand */}
+        <a
+          href="/"
+          aria-label="The Quiet Shelf home"
+          className="group flex shrink-0 items-center gap-3"
+        >
+          <div
+            className="flex h-12 w-12 items-center justify-center
+            overflow-hidden rounded-full border border-primary-dark/10
+            bg-white shadow-sm transition duration-300
+            group-hover:border-muted-rose/50 sm:h-14 sm:w-14"
+          >
+            <img
+              src="/images/logo.jpeg"
+              alt=""
+              className="h-full w-full object-contain"
+            />
+          </div>
+
+          <div className="hidden min-[380px]:block">
+            <p
+              className="text-base font-semibold tracking-tight
+              text-primary-dark sm:text-lg"
+            >
+              The Quiet Shelf
+            </p>
+            <p
+              className="mt-0.5 text-[9px] uppercase
+              tracking-[0.22em] text-muted-rose sm:text-[10px]"
+            >
+              Stories worth staying for
+            </p>
+          </div>
         </a>
 
         {/* Desktop navigation */}
-        <ul className="hidden items-center gap-5 md:flex lg:gap-6">
+        <ul className="hidden items-center gap-5 lg:gap-7 md:flex">
           {links.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm font-medium transition-colors duration-200 hover:text-muted-rose"
+                className="group relative py-2 text-sm font-medium
+                  text-text/75 transition-colors duration-300
+                  hover:text-primary-dark"
               >
                 {link.label}
+
+                <span
+                  className="absolute inset-x-0 -bottom-0.5
+                  h-0.5 origin-left scale-x-0 rounded-full
+                  bg-muted-rose transition-transform duration-300
+                  group-hover:scale-x-100"
+                />
               </a>
             </li>
           ))}
         </ul>
 
-        {/* Desktop authentication buttons */}
+        {/* Desktop authentication */}
         <div className="hidden shrink-0 items-center gap-3 md:flex">
-          <a
-            href="/signin"
-            className="rounded-full border border-primary-dark px-4 py-2 text-sm font-medium text-primary-dark transition duration-200 hover:bg-primary-light/20"
+          <Link
+            to="/signin"
+            className="rounded-full border border-primary-dark/20
+              px-5 py-2.5 text-sm font-medium text-primary-dark
+              transition-all duration-300 hover:border-muted-rose
+              hover:bg-white hover:text-muted-rose"
           >
             Sign In
-          </a>
+          </Link>
 
-          <a
-            href="/signup"
-            className="rounded-full bg-primary-dark px-4 py-2 text-sm font-medium text-white transition duration-200 hover:bg-muted-rose focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"
+          <Link
+            to="/signup"
+            className="rounded-full bg-primary-dark px-5 py-2.5
+              text-sm font-medium text-white shadow-sm
+              transition-all duration-300 hover:-translate-y-0.5
+              hover:bg-muted-rose hover:shadow-md
+              focus-visible:outline-none focus-visible:ring-2
+              focus-visible:ring-muted-rose focus-visible:ring-offset-2"
           >
-            Sign Up
-          </a>
+            Join Us
+          </Link>
         </div>
 
-        {/* Mobile menu toggle */}
+        {/* Mobile menu button */}
         <button
           type="button"
-          onClick={() => setOpen(!open)}
+          onClick={() => setOpen((current) => !current)}
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition hover:bg-primary-light/20 md:hidden"
+          className="flex h-11 w-11 shrink-0 items-center
+            justify-center rounded-full border border-primary-dark/10
+            bg-white text-primary-dark transition-all duration-300
+            hover:border-muted-rose hover:text-muted-rose md:hidden"
         >
-          <span className="text-2xl leading-none">{open ? "×" : "☰"}</span>
+          {open ? (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-5 w-5"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" d="m6 6 12 12M18 6 6 18" />
+            </svg>
+          ) : (
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              className="h-5 w-5"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          )}
         </button>
       </nav>
 
-      {/* Mobile dropdown menu */}
-      {open && (
-        <div
-          id="mobile-nav"
-          className="absolute h-screen left-0 top-full w-full border-t border-dark/10 bg-bg px-4 pb-6 shadow-lg md:hidden"
-        >
+      {/* Mobile navigation */}
+      <div
+        id="mobile-nav"
+        className={`absolute left-0 top-full w-full overflow-hidden h-screen
+          border-b border-primary-dark/10 bg-dark
+          shadow-lg transition-all duration-300 md:hidden
+          ${
+            open
+              ? "visible max-h-[600px] translate-y-0 opacity-100"
+              : "invisible max-h-0 -translate-y-2 opacity-0"
+          }`}
+      >
+        <div className="mx-auto max-w-7xl px-5 pb-6 pt-3 sm:px-8">
           <ul className="flex flex-col">
-            {links.map((link) => (
-              <li key={link.href}>
+            {links.map((link, index) => (
+              <li key={link.href} className="border-b border-primary-dark/10">
                 <a
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="block border-b border-dark/10 py-3 text-base transition-colors duration-200 hover:text-muted-rose"
+                  className="flex items-center justify-between
+                    py-3.5 text-sm font-medium text-white/80
+                    transition-colors hover:text-muted-rose"
                 >
                   {link.label}
+                  <span className="text-lg text-muted-rose/70">→</span>
                 </a>
               </li>
             ))}
           </ul>
 
           {/* Mobile authentication buttons */}
-          <div className="mt-5 flex flex-col gap-3">
-            <a
-              href="/signin"
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <Link
+              to="/signin"
               onClick={() => setOpen(false)}
-              className="rounded-full border border-primary-dark px-4 py-3 text-center text-sm font-medium text-primary-dark transition hover:bg-primary-light/20"
+              className="rounded-full border border-primary-dark/20
+                px-4 py-3 text-center text-sm font-medium
+                text-primary-dark transition hover:border-muted-rose
+                hover:bg-white"
             >
               Sign In
-            </a>
+            </Link>
 
-            <a
-              href="/signup"
+            <Link
+              to="/signup"
               onClick={() => setOpen(false)}
-              className="rounded-full border border-primary-dark px-4 py-3 text-center text-sm font-medium text-primary-dark transition hover:bg-primary-light/20"
+              className="rounded-full bg-primary-dark px-4 py-3
+                text-center text-sm font-medium text-white
+                transition hover:bg-muted-rose"
             >
-              Sign Up
-            </a>
+              Join Us
+            </Link>
           </div>
+
+          <p className="mt-5 text-center text-xs italic text-text/50">
+            Find a quiet moment. Find your next story.
+          </p>
         </div>
-      )}
+      </div>
     </header>
   );
 }
