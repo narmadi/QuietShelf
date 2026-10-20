@@ -48,21 +48,20 @@ export const books = pgTable(
     slug: text('slug').notNull(),
     name: text('name').notNull(),
     author: text('author').notNull(),
-    category: text('author').notNull(),
-    description: text('description').notNull(),
-    price: integer('price_cents').notNull(),
+    category: text('category').notNull(),
+    price: integer('price').notNull(),
     currency: text('currency').notNull().default('usd'),
     imageUrl: text('image_url').notNull(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
   },
-  (table) => [uniqueIndex('products_slug_idx').on(table.slug)],
+  (table) => [uniqueIndex('books_slug_idx').on(table.slug)],
 )
 
 export const bookImages = pgTable('book_images', {
   id: text('id').primaryKey(),
-  productId: text('product_id')
+  bookId: text('book_id')
     .notNull()
-    .references(() => products.id, { onDelete: 'cascade' }),
+    .references(() => books.id, { onDelete: 'cascade' }),
   url: text('url').notNull(),
   sortOrder: integer('sort_order').notNull().default(0),
 })

@@ -1,26 +1,26 @@
 import { randomUUID } from 'node:crypto'
 import { db } from './index.js'
-import { products, productImages } from './schema.js'
-import { productsData } from './products.data.js'
+import { books, bookImages } from './schema.js'
+import { booksData } from './books.data.js'
 async function seed() {
-  console.log('Seeding products...')
-  for (const p of productsData) {
+  console.log('Seeding books...')
+  for (const b of booksData) {
     const id = randomUUID()
     const [inserted] = await db
-      .insert(products)
-      .values({ id, ...p })
-      .onConflictDoNothing({ target: products.slug })
+      .insert(books)
+      .values({ id, ...b })
+      .onConflictDoNothing({ target: books.slug })
       .returning()
     if (inserted) {
-      await db.insert(productImages).values({
+      await db.insert(bookImages).values({
         id: randomUUID(),
-        productId: inserted.id,
+        bookId: inserted.id,
         url: inserted.imageUrl,
         sortOrder: 0,
       })
     }
   }
-  console.log(`Done — seeded ${productsData.length} products.`)
+  console.log(`Done — seeded ${booksData.length} books.`)
   process.exit(0)
 }
 seed()
