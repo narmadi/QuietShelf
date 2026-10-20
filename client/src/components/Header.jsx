@@ -13,15 +13,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header
-      className="sticky top-0 z-50 border-b border-primary-dark/10
-      font-[Poppins] text-text shadow-sm
-      backdrop-blur-lg"
-    >
-      <nav
-        className="mx-auto flex max-w-7xl items-center
-        justify-between gap-4 px-5 py-3 sm:px-8 lg:px-12"
-      >
+    <header className="sticky top-0 z-50 w-full max-w-full box-border shadow-sm backdrop-blur-md">
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-12">
         {/* Logo and brand */}
         <a
           href="/"
@@ -58,7 +51,7 @@ export function Header() {
         </a>
 
         {/* Desktop navigation */}
-        <ul className="hidden items-center gap-5 lg:gap-7 md:flex">
+        <ul className="hidden items-center gap-5 lg:gap-7 lg:flex">
           {links.map((link) => (
             <li key={link.href}>
               <a
@@ -81,7 +74,7 @@ export function Header() {
         </ul>
 
         {/* Desktop authentication */}
-        <div className="hidden shrink-0 items-center gap-3 md:flex">
+        <div className="hidden shrink-0 items-center gap-3 lg:flex">
           <Link
             to="/signin"
             className="rounded-full border border-primary-dark/20
@@ -115,7 +108,7 @@ export function Header() {
           className="flex h-11 w-11 shrink-0 items-center
             justify-center rounded-full border border-primary-dark/10
             bg-white text-primary-dark transition-all duration-300
-            hover:border-muted-rose hover:text-muted-rose md:hidden"
+            hover:border-muted-rose hover:text-muted-rose lg:hidden"
         >
           {open ? (
             <svg
@@ -148,7 +141,7 @@ export function Header() {
         id="mobile-nav"
         className={`absolute left-0 top-full w-full overflow-hidden h-screen
           border-b border-primary-dark/10 bg-dark
-          shadow-lg transition-all duration-300 md:hidden
+          shadow-lg transition-all duration-300 lg:hidden
           ${
             open
               ? "visible max-h-[600px] translate-y-0 opacity-100"
