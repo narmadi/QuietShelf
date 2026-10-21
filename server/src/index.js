@@ -31,5 +31,5 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'Something broke on our side.' })
 })
 app.listen(PORT, () => {
-  console.log(`BrewHaus API listening on http://localhost:${PORT}`)
+  console.log(`Quiet Shelf API listening on http://localhost:${PORT}`)
 })

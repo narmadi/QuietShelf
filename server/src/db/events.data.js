@@ -1,4 +1,4 @@
-export const events = [
+export const eventsData = [
     {
         id: 'stories-behind-the-stories',
         day: "18",

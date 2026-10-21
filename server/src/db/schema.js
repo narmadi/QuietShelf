@@ -65,3 +65,16 @@ export const bookImages = pgTable('book_images', {
   url: text('url').notNull(),
   sortOrder: integer('sort_order').notNull().default(0),
 })
+
+export const events = pgTable('events', {
+  id: text('id').primaryKey(),
+  day: integer('day').notNull(),
+  month: text('month').notNull(),
+  weekday: text('weekday').notNull(),
+  time: text('time').notNull(),
+  type: text('type').notNull().notNull(),
+  title: text('title').notNull(),
+  description: text('description').notNull(),
+  link: text('link').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+})
