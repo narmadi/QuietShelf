@@ -1,34 +1,23 @@
-import 'dotenv/config'
-import { betterAuth } from 'better-auth'
-import { drizzleAdapter } from '@better-auth/drizzle-adapter'
-import { db } from './db/index.js'
-import * as schema from './db/schema.js'
-export const auth = betterAuth({
-  database: drizzleAdapter(db, {
-    provider: 'pg',
-    schema: {
-      user: schema.user,
-      session: schema.session,
-      account: schema.account,
-      verification: schema.verification,
-    },
-  }),
-  secret: process.env.BETTER_AUTH_SECRET,
-  baseURL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3000',
-  emailAndPassword: {
-    enabled: true,
-    requireEmailVerification: false,
-    minPasswordLength: 8,
-  },
-  session: {
-    expiresIn: 60 * 60 * 24 * 7,
-    updateAge: 60 * 60 * 24,
-  },
-  trustedOrigins: [process.env.CLIENT_URL ?? 'http://localhost:5173'],
-  advanced: {
-    defaultCookieAttributes: {
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-    },
-  },
-})
+// server.js
+import express from "express";
+import cors from "cors";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./auth.js";
+
+const app = express();
+app.set("trust proxy", 1);
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL, // your Vercel URL, no trailing slash
+    credentials: true,
+  })
+);
+
+// Must come BEFORE express.json()
+app.all("/api/auth/*splat", toNodeHandler(auth)); // Express 5
+// app.all("/api/auth/*", toNodeHandler(auth));   // Express 4
+
+app.use(express.json());
+
+app.listen(process.env.PORT || 3000, () => console.log("API running"));

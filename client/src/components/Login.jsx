@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { signIn, signUp } from "../lib/auth-client";
 
 export function Login({ mode }) {
   const [name, setName] = useState("");
@@ -26,7 +27,7 @@ export function Login({ mode }) {
     setShowConfirmPassword(false);
   }, [mode]);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setError("");
 
@@ -35,12 +36,22 @@ export function Login({ mode }) {
       return;
     }
 
-    if (isSignUp) {
-      // Connect your registration API here.
-      console.log("Sign up:", { name, email, password });
-    } else {
-      // Connect your login API here.
-      console.log("Sign in:", { email, password, rememberMe });
+    setLoading(true);
+    try {
+      const { error: authError } = isSignUp
+        ? await signUp.email({ name, email, password })
+        : await signIn.email({ email, password, rememberMe });
+
+      if (authError) {
+        setError(authError.message || "Something went wrong. Please try again.");
+        return;
+      }
+
+      navigate("/");
+    } catch {
+      setError("Could not reach the server. Please try again.");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -348,15 +359,9 @@ export function Login({ mode }) {
               )}
 
               {/* Submit button */}
-              <button
-                type="submit"
-                className="group flex min-h-12 w-full items-center justify-center gap-3 rounded-xl bg-primary-dark px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-dark/20 transition duration-300 hover:-translate-y-0.5 hover:bg-muted-rose hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 active:translate-y-0"
-              >
-                {isSignUp ? "Create Account" : "Sign In"}
-
-                <span className="transition-transform group-hover:translate-x-1">
-                  →
-                </span>
+              <button type="submit" disabled={loading} className="... disabled:opacity-60 disabled:cursor-not-allowed">
+                {loading ? "Please wait…" : isSignUp ? "Create Account" : "Sign In"}
+                <span className="transition-transform group-hover:translate-x-1">→</span>
               </button>
             </form>
 
