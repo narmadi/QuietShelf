@@ -55,7 +55,7 @@ export function Login({ mode }) {
       setLoading(false);
     }
   }
-
+  
   return (
     <section id="login">
       <div className="mx-auto max-w-[1100px] grid grid-cols-1 md:grid-cols-2 gap-6 text-center md:text-left px-4 pt-12 pb-10 sm:px-6 md:pt-20 md:pb-16">
@@ -360,7 +360,7 @@ export function Login({ mode }) {
               )}
 
               {/* Submit button */}
-              <button type="submit" disabled={loading} className="... disabled:opacity-60 disabled:cursor-not-allowed">
+              <button type="submit" disabled={loading} className="... disabled:opacity-60 disabled:cursor-not-allowed group flex min-h-12 w-full items-center justify-center gap-3 rounded-xl bg-primary-dark px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary-dark/20 transition duration-300 hover:-translate-y-0.5 hover:bg-muted-rose hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-dark focus-visible:ring-offset-2 active:translate-y-0">
                 {loading ? "Please wait…" : isSignUp ? "Create Account" : "Sign In"}
                 <span className="transition-transform group-hover:translate-x-1">→</span>
               </button>
