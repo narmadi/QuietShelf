@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Routes, Route, useNavigate, useLocation} from 'react-router'
+import { Routes, Route, useLocation} from 'react-router'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { About } from './components/About'
@@ -20,13 +20,6 @@ function Home() {
   )
 }
 function App() {
-  const navigate = useNavigate()
-
-  function handleAuthClick(mode) {
-    setAuthMode(mode)
-    navigate('/login')
-  }
-
   function ScrollToHash() {
     const { pathname, hash } = useLocation()
     useEffect(() => {
@@ -41,10 +34,11 @@ function App() {
 
   return (
     <>
-      <Header onAuthClick={ handleAuthClick } />
+      <Header />
       <ScrollToHash />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login mode="signin" />} />
         <Route path="/signin" element={<Login mode="signin" />} />
         <Route path="/signup" element={<Login mode="signup" />} />
         <Route path="/books/:id" element={<BookDetail />} />

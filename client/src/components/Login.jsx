@@ -11,6 +11,7 @@ export function Login({ mode }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const isSignUp = mode === "signup";
   const navigate = useNavigate();

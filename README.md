@@ -75,6 +75,7 @@ public/
 | Path       | Page                                   |
 | ---------- | -------------------------------------- |
 | `/`        | Home (Hero, About, Shop, Events)       |
+| `/login`   | Sign in form                           |
 | `/signin`  | Sign in form                           |
 | `/signup`  | Create account form                    |
 
