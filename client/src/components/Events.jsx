@@ -1,7 +1,43 @@
-import { events } from '../data/events';
+
+import { useEffect, useState } from 'react';
 import { EventCard } from './EventCard';
 
 export function Events() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    async function loadEvents() {
+      setLoading(true);
+      setError('');
+
+      try {
+        const response = await fetch('/api/events');
+
+        if (!response.ok) {
+          throw new Error('Unable to load events');
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid events response');
+        }
+
+        setEvents(data);
+      } catch (err) {
+        console.error('Failed to load events:', err);
+        setError(
+          'We couldn’t load our events right now. Please try again.'
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadEvents();
+  }, []);
+
   return (
     <section
       id="events"
@@ -16,7 +52,6 @@ export function Events() {
         <div className="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
           <div className="mb-5 inline-flex items-center gap-3 rounded-full border border-primary-dark/30 bg-primary-light px-4 py-2">
             <span className="h-2 w-2 rounded-full bg-primary-dark" />
-
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary-dark">
               Gather · Discover · Connect
             </p>
@@ -42,19 +77,69 @@ export function Events() {
           </div>
         </div>
 
+        {/* Loading state */}
+        {loading && (
+          <div
+            className="flex flex-col items-center justify-center py-16 text-center"
+            role="status"
+            aria-live="polite"
+          >
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary-dark/20 border-t-primary-dark" />
+
+            <p className="mt-5 font-serif text-xl text-dark">
+              Gathering our stories...
+            </p>
+
+            <p className="mt-2 text-sm text-dark/60">
+              Please wait while we load our upcoming events.
+            </p>
+          </div>
+        )}
+
+        {/* Error state */}
+        {!loading && error && (
+          <div
+            className="mx-auto max-w-xl rounded-2xl border border-red-200 bg-red-50 px-6 py-10 text-center"
+            role="alert"
+          >
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-2xl text-red-600">
+              !
+            </div>
+
+            <h3 className="mt-4 font-serif text-2xl text-dark">
+              Oops! Something went wrong.
+            </h3>
+
+            <p className="mt-3 text-sm leading-7 text-red-700">
+              {error}
+            </p>
+
+            <button
+              type="button"
+              onClick={loadEvents}
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-primary-dark px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary-dark focus:ring-offset-2"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
+
         {/* Events grid */}
-        {events.length > 0 ? (
+        {!loading && !error && events.length > 0 && (
           <div className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {events.map((event) => (
               <div
-                key={`${event.month}-${event.day}`}
+                key={event.id ?? `${event.month}-${event.day}`}
                 className="h-full transition duration-300 hover:-translate-y-1"
               >
                 <EventCard event={event} />
               </div>
             ))}
           </div>
-        ) : (
+        )}
+
+        {/* Empty state: API succeeded but returned no events */}
+        {!loading && !error && events.length === 0 && (
           <div className="rounded-2xl border border-dashed border-primary-dark/30 bg-primary-light px-6 py-12 text-center">
             <span className="font-serif text-4xl text-primary-dark">✦</span>
 
