@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import { useSession, signOut } from "../lib/auth-client";
 
 const links = [
@@ -14,6 +14,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const { data: session, isPending } = useSession();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const isAuthPage = pathname === "/signin" || pathname === "/signup";
 
   const firstName = session?.user?.name?.split(" ")[0] ?? "reader";
 
@@ -65,27 +67,29 @@ export function Header() {
         </a>
 
         {/* Desktop navigation */}
-        <ul className="hidden items-center gap-5 lg:gap-7 lg:flex">
-          {links.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="group relative py-2 text-sm font-medium
-                  text-text/75 transition-colors duration-300
-                  hover:text-primary-dark"
-              >
-                {link.label}
+        {!isAuthPage && (
+          <ul className="hidden items-center gap-5 lg:gap-7 lg:flex">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="group relative py-2 text-sm font-medium
+                    text-text/75 transition-colors duration-300
+                    hover:text-primary-dark"
+                >
+                  {link.label}
 
-                <span
-                  className="absolute inset-x-0 -bottom-0.5
-                  h-0.5 origin-left scale-x-0 rounded-full
-                  bg-muted-rose transition-transform duration-300
-                  group-hover:scale-x-100"
-                />
-              </a>
-            </li>
-          ))}
-        </ul>
+                  <span
+                    className="absolute inset-x-0 -bottom-0.5
+                    h-0.5 origin-left scale-x-0 rounded-full
+                    bg-muted-rose transition-transform duration-300
+                    group-hover:scale-x-100"
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
 
         {/* Desktop authentication */}
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
@@ -191,23 +195,25 @@ export function Header() {
           }`}
       >
         <div className="mx-auto max-w-7xl px-5 pb-6 pt-3 sm:px-8">
-          <ul className="flex flex-col">
-            {links.map((link) => (
-              <li key={link.href} className="border-b border-primary-dark/10">
-                <a
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-between
-                    py-3.5 text-sm font-medium text-white/80
-                    transition-colors hover:text-muted-rose"
-                >
-                  {link.label}
-                  <span className="text-lg text-muted-rose/70">→</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-
+          {!isAuthPage && (
+            <ul className="flex flex-col">
+              {links.map((link) => (
+                <li key={link.href} className="border-b border-primary-dark/10">
+                  <a
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-between
+                      py-3.5 text-sm font-medium text-white/80
+                      transition-colors hover:text-muted-rose"
+                  >
+                    {link.label}
+                    <span className="text-lg text-muted-rose/70">→</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+          
           {/* Mobile authentication */}
           {isPending ? (
             <div
