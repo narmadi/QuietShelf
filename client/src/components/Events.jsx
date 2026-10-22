@@ -7,29 +7,24 @@ export function Events() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const loadEvents = useCallback(async () => {
-    setLoading(true);
-    setError('');
-
-    try {
-      const response = await fetch('/api/events');
-      if (!response.ok) throw new Error('Unable to load events');
-
-      const data = await response.json();
-      if (!Array.isArray(data)) throw new Error('Invalid events response');
-
-      setEvents(data);
-    } catch (err) {
-      console.error('Failed to load events:', err);
-      setError('We couldn’t load our events right now. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    loadEvents();
-  }, [loadEvents()]);
+    let cancelled = false
+    async function load() {
+      try {
+        const res = await fetch('/api/events')
+        if (!res.ok) throw new Error('Unable to load events')
+        const data = await res.json()
+        if (!cancelled) setEvents(data)
+      } catch (err) {
+        console.error('Failed to load events:', err)
+        if (!cancelled) setError('Unable to load events')
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    load()
+    return () => { cancelled = true }
+  }, []) // empty array = run once
 
   return (
     <section
