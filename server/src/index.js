@@ -33,6 +33,6 @@ app.use((err, _req, res, _next) => {
   console.error(err);
   res.status(500).json({ error: "Something broke on our side." });
 });
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Quiet Shelf API listening on port ${PORT}`);
 });
