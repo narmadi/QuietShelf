@@ -8,5 +8,5 @@ if (!connectionString) {
     'DATABASE_URL is missing. Copy .env.example to .env and paste your Neon connection string.',
   )
 }
-const client = postgres(connectionString, { prepare: false })
+const client = postgres(connectionString, { prepare: false, ssl: 'require' })
 export const db = drizzle(client, { schema })
