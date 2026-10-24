@@ -12,6 +12,8 @@ const links = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
+
   const { data: session, isPending } = useSession();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -21,11 +23,20 @@ export function Header() {
 
   async function handleSignOut() {
     setOpen(false);
-    await signOut({
-      fetchOptions: {
-        onSuccess: () => navigate("/"),
-      },
-    });
+    setIsSigningOut(true);
+
+    try {
+      await signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            window.location.reload();
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Failed to sign out:", error);
+      setIsSigningOut(false);
+    }
   }
 
   return (
@@ -107,14 +118,24 @@ export function Header() {
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="rounded-full border border-primary-dark/20
-                  px-5 py-2.5 text-sm font-medium text-primary-dark
-                  transition-all duration-300 hover:border-muted-rose
-                  hover:bg-white hover:text-muted-rose
+                disabled={isSigningOut}
+                className="flex min-w-[120px] items-center justify-center gap-2
+                  rounded-full border border-primary-dark/20 px-5 py-2.5
+                  text-sm font-medium text-primary-dark transition-all duration-300
+                  hover:border-muted-rose hover:bg-white hover:text-muted-rose
                   focus-visible:outline-none focus-visible:ring-2
-                  focus-visible:ring-muted-rose focus-visible:ring-offset-2"
+                  focus-visible:ring-muted-rose focus-visible:ring-offset-2
+                  disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Sign Out
+                {isSigningOut && (
+                  <span
+                    aria-hidden="true"
+                    className="h-4 w-4 animate-spin rounded-full
+                      border-2 border-current border-t-transparent"
+                  />
+                )}
+
+                <span>{isSigningOut ? "Signing out..." : "Sign Out"}</span>
               </button>
             </>
           ) : (
@@ -232,11 +253,21 @@ export function Header() {
               <button
                 type="button"
                 onClick={handleSignOut}
-                className="w-full rounded-full bg-primary-dark px-4 py-3
-                  text-center text-sm font-medium text-white
-                  transition hover:bg-muted-rose"
+                disabled={isSigningOut}
+                className="flex w-full items-center justify-center gap-2
+                  rounded-full bg-primary-dark px-4 py-3 text-center
+                  text-sm font-medium text-white transition hover:bg-muted-rose
+                  disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Sign Out
+                {isSigningOut && (
+                  <span
+                    aria-hidden="true"
+                    className="h-4 w-4 animate-spin rounded-full
+                      border-2 border-white border-t-transparent"
+                  />
+                )}
+
+                <span>{isSigningOut ? "Signing out..." : "Sign Out"}</span>
               </button>
             </div>
           ) : (
