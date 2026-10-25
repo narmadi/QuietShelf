@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router";
 import { BookCard } from "./BookCard";
 import { PageLoader } from './PageLoader';
+import { BuyButton } from "./BuyButton";
 
 export function BookDetail() {
   const [books, setBooks] = useState([]);
@@ -183,7 +184,7 @@ export function BookDetail() {
 
               <button
                 type="button"
-                onClick={() => setQuantity((current) => current + 1)}
+                onClick={() => setQuantity((current) => Math.min(10, current + 1))}
                 aria-label="Increase quantity"
                 className="px-5 py-3 text-lg text-primary-dark
                   transition hover:bg-primary-light"
@@ -195,6 +196,9 @@ export function BookDetail() {
 
           {/* Actions */}
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <BuyButton bookId={book.id} quantity={quantity}>
+              Buy now
+            </BuyButton>
             <button
               type="button"
               onClick={() => {

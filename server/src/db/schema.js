@@ -1,4 +1,4 @@
-import { pgTable, text, integer, boolean, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
+import { pgTable, text, integer, boolean, timestamp, uniqueIndex, serial } from 'drizzle-orm/pg-core'
 export const user = pgTable('user', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
@@ -79,21 +79,21 @@ export const events = pgTable('events', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
 
-export const orders = pgTable("orders", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull().references(() => users.id),
-  status: text("status").notNull().default("pending"), // pending | paid
-  totalCents: integer("total_cents").notNull(),
-  currency: text("currency").notNull().default("usd"),
-  stripeSessionId: text("stripe_session_id").unique(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  paidAt: timestamp("paid_at"),
-});
+export const orders = pgTable('orders', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  userId: text('user_id').notNull().references(() => user.id),
+  status: text('status').notNull().default('pending'), // pending | paid
+  totalCents: integer('total_cents').notNull(),
+  currency: text('currency').notNull().default('usd'),
+  stripeSessionId: text('stripe_session_id').unique(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  paidAt: timestamp('paid_at'),
+})
 
-export const orderItems = pgTable("order_items", {
-  id: serial("id").primaryKey(),
-  orderId: integer("order_id").notNull().references(() => orders.id),
-  bookId: integer("book_id").notNull().references(() => books.id),
-  quantity: integer("quantity").notNull().default(1),
-  unitPriceCents: integer("unit_price_cents").notNull(), // price at time of purchase
-});
+export const orderItems = pgTable('order_items', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  orderId: text('order_id').notNull().references(() => orders.id),
+  bookId: text('book_id').notNull().references(() => books.id),
+  quantity: integer('quantity').notNull().default(1),
+  unitPriceCents: integer('unit_price_cents').notNull(),
+})

@@ -8,6 +8,7 @@ import { Events } from './components/Events'
 import { Footer } from './components/Footer'
 import { Login } from './components/Login'
 import { BookDetail } from './components/BookDetail'
+import { SuccessPage } from './components/SuccessPage'
 
 function Home() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/signin" element={<Login mode="signin" />} />
         <Route path="/signup" element={<Login mode="signup" />} />
         <Route path="/books/:id" element={<BookDetail />} />
+        <Route path="/success" element={<SuccessPage />} />
       </Routes>
       <Footer />
     </>
