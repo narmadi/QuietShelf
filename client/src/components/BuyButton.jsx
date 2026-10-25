@@ -53,7 +53,7 @@ export function BuyButton({
         className={`
           inline-flex w-full items-center justify-center gap-2
           rounded-full border border-[#E2828C]
-          bg-[#E2828C] px-7 py-4
+          bg-[#E2828C] px-6 py-3.5
           text-sm font-semibold tracking-wide text-white
           shadow-sm
           transition-all duration-300 ease-in-out

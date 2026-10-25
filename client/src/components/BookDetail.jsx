@@ -209,7 +209,7 @@ export function BookDetail() {
                 });
               }}
               className="inline-flex flex-1 items-center justify-center
-                gap-2 rounded-full bg-primary-dark px-7 py-4
+                gap-2 rounded-full bg-primary-dark px-6 py-3.5
                 text-sm font-semibold text-white shadow-sm
                 transition duration-300 hover:-translate-y-0.5
                 hover:bg-muted-rose hover:shadow-md"
@@ -235,7 +235,7 @@ export function BookDetail() {
               onClick={() => setIsWishlisted((current) => !current)}
               aria-pressed={isWishlisted}
               className={`inline-flex items-center justify-center gap-2
-                rounded-full border px-7 py-4 text-sm font-semibold
+                rounded-full border px-6 py-3.5 text-sm font-semibold
                 transition duration-300 hover:-translate-y-0.5
                 ${
                   isWishlisted
