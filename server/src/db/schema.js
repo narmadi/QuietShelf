@@ -78,3 +78,22 @@ export const events = pgTable('events', {
   link: text('link').notNull(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
 })
+
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull().references(() => users.id),
+  status: text("status").notNull().default("pending"), // pending | paid
+  totalCents: integer("total_cents").notNull(),
+  currency: text("currency").notNull().default("usd"),
+  stripeSessionId: text("stripe_session_id").unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  paidAt: timestamp("paid_at"),
+});
+
+export const orderItems = pgTable("order_items", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").notNull().references(() => orders.id),
+  bookId: integer("book_id").notNull().references(() => books.id),
+  quantity: integer("quantity").notNull().default(1),
+  unitPriceCents: integer("unit_price_cents").notNull(), // price at time of purchase
+});
